@@ -1,5 +1,5 @@
 package telran.util;
-
+//HW_14 IlyaL
 import java.util.Iterator;
 import java.util.LinkedList;
 
