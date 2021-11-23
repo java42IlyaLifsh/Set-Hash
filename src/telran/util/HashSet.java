@@ -83,27 +83,75 @@ public class HashSet<T> extends AbstractSet<T> {
 
 	@Override
 	public Iterator<T> iterator() {
-		//TODO 
-		//return new HashSetIterator();
-		return null;
+		//
+		return new HashSetIterator<T>();
+		
 	}
-	private class HashSetIterator implements Iterator<T> {
-//TODO iterator required fields
+	private class HashSetIterator<T> implements Iterator<T> {
+// iterator required fields
+		Iterator<T> backetIterators[];
+		int curentBacketIndex = -1;
+		int previosBacketIndex =-1;
+		
+//constructors
+		public HashSetIterator( ) {
+			backetIterators = new Iterator [hashTable.length];
+			for (int i=0; i<hashTable.length; i++) {
+				if (hashTable[i]!=null) {
+					backetIterators[i]= (Iterator<T>) hashTable[i].iterator();
+					if (curentBacketIndex <0) {
+						curentBacketIndex = i;
+					}
+				}
+			}
+		}
+		
+		
 		@Override
 		public boolean hasNext() {
-			// TODO Auto-generated method stub
-			return false;
+			return curentBacketIndex<backetIterators.length && 
+					backetIterators[curentBacketIndex].hasNext();
+			
 		}
 
 		@Override
 		public T next() {
-			// TODO Auto-generated method stub
-			return null;
+			T res = backetIterators [curentBacketIndex].next();
+			previosBacketIndex = curentBacketIndex ;
+			curentBacketIndex = getNextCurentIndex(curentBacketIndex);
+			
+			return res;
 		}
 		@Override
 		public void remove() {
-			//TODO
+			backetIterators[previosBacketIndex].remove();
+			size--;
 		}
+		
+		private int getNextCurentIndex(int curentIndex) {
+			if (!backetIterators [curentIndex].hasNext()) {
+				while (++curentIndex <backetIterators.length &&
+				(isBacketNotCreated(curentIndex)||isBackedPassed(curentIndex))) {
+					
+				}
+				
+							}
+			return curentIndex;
+		}
+
+
+		private boolean isBackedPassed(int index) {
+			
+			return !backetIterators[index].hasNext();
+		}
+
+
+		private boolean isBacketNotCreated(int index) {
+			
+			return backetIterators[index]==null;
+		}
+			
+		
 		
 	}
 
