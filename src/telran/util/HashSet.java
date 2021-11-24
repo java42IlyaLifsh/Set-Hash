@@ -88,6 +88,7 @@ public class HashSet<T> extends AbstractSet<T> {
 		
 	}
 	private class HashSetIterator<T> implements Iterator<T> {
+		// V.R. Looks OK. And tests are also OK.
 // iterator required fields
 		Iterator<T> backetIterators[];
 		int curentBacketIndex = -1;
